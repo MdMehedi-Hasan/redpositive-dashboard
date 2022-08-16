@@ -8,11 +8,11 @@ const Drawer = () => {
             <div className="drawer-content flex flex-col">
                 {/* <!-- Page content here --> */}
                 <Table/>
-                <label for="my-drawer-2" className="btn btn-primary drawer-button lg:hidden">Open drawer</label>
+                <label htmlFor="my-drawer-2" className="btn btn-primary drawer-button lg:hidden">Open drawer</label>
 
             </div>
             <div className="drawer-side">
-                <label for="my-drawer-2" className="drawer-overlay"></label>
+                <label htmlFor="my-drawer-2" className="drawer-overlay"></label>
                 <ul className="menu p-4 overflow-y-auto w-64 bg-gray-200 text-base-content gap-5">
                     {/* <!-- Sidebar content here --> */}
                     <li><a href='/'>Sidebar Item 1</a></li>
@@ -25,8 +25,8 @@ const Drawer = () => {
                     <li><a href='/'>Sidebar Item 2</a></li>
                 </ul>
 
-            </div>
-        </div>
+            </div >
+        </div >
     );
 };
 
