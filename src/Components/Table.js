@@ -1,9 +1,10 @@
 import React, { useEffect, useState } from 'react';
 import Form from './Form';
 import Modal from './Modal';
+import { Icon } from '@iconify/react';
 
 const Table = () => {
-    // const [order, setOrder] = useState("")
+    const [order, setOrder] = useState("")
     const [results, setResults] = useState([])
     const [name, setName] = useState("")
     const [phone, setPhone] = useState("")
@@ -16,14 +17,13 @@ const Table = () => {
         phone: phone,
         hobbies: hobbies
     }
-    console.log(newData);
     // ================   Getting data from database  ======================= //
     useEffect(() => {
         fetch('http://localhost:2000/home')
             .then(res => res.json())
             .then(data => setResults(data))
     }, [load])
-    // ================================================ //
+    // ====================  Data posted  ============================ //
     const postData = () => {
         fetch('http://localhost:2000/newdata', {
             method: 'POST',
@@ -43,17 +43,24 @@ const Table = () => {
                 console.error('Error:', error);
             });
     }
+    // =============================================================
+    const updateData = (id) => {
+        console.log(id);
+    }
+    const deleteData = (id) => {
+        console.log(id);
+    }
     return (
         <div className="overflow-x-auto pr-10">
 
             <div className='flex  items-center gap-5'>
                 <h1>Select table order</h1>
-                <select className="select max-w-xs mt-4 mb-5 border border-black">
+                <select onChange={(e)=>setOrder(e.target.value)} className="select max-w-xs mt-4 mb-5 border border-black">
                     <option>Ascending</option>
                     <option>Descending</option>
                 </select>
             </div>
-            <table className="table table-zebra w-full">
+            <table className="table table-zebra w-screen">
                 <thead>
                     <tr>
                         <th></th>
@@ -63,26 +70,24 @@ const Table = () => {
                         <th>Email</th>
                         <th>Hobbies</th>
                         <th></th>
-                        <th></th>
                     </tr>
                 </thead>
                 <tbody className='max-w-full'>
                     {results.map(result =>
-                        <tr key={result?._id}>
+                        <tr className='w-screen' key={result?._id}>
                             <td><input type="checkbox" name="" id="" /></td>
-                            <th>1</th>
+                            <td>{results.indexOf(result)+1}</td>
                             <td>{result?.name}</td>
                             <td>{result?.phone}</td>
                             <td>{result?.email}</td>
-                            <td>{result?.hobbies}</td>
-                            <td><button className="btn primary">Update</button></td>
-                            <td><button className="btn primary">Delete</button></td>
+                            <td>{result?.hobbies.join(", ")}</td>
+                            <td><button onClick={()=>updateData(result?._id)} className="btn btn-warning mr-4">Update</button><button onClick={()=>deleteData(result?._id)} className="btn btn-error">Delete</button></td>
                         </tr>
                     )}
                 </tbody>
             </table>
-            <label htmlFor="form-modal" className="btn modal-button">Add</label>
-            <label htmlFor="my-modal" className = "btn modal-button" > Send</label >
+            <label htmlFor="form-modal" className="btn modal-button mr-8 btn-accent"><span className='text-2xl pr-2'><Icon icon="ant-design:plus-circle-outlined" /></span>Add</label>
+            <label htmlFor="my-modal" className = "btn modal-button btn-accent" ><span className='text-2xl pr-2'><Icon icon="bi:send-fill" /></span> Send</label >
             <Modal />
             <Form func={postData} setName={setName} setPhone={setPhone} setEmail={setEmail} setHobbies={setHobbies} />
         </div >
